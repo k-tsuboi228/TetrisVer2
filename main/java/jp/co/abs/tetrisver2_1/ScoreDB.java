@@ -34,6 +34,10 @@ public class ScoreDB extends SQLiteOpenHelper{
         db.execSQL(
                 SQL_CREATE_ENTRIES
         );
+
+        saveData(db, 0,0);
+        saveData(db, 0,0);
+        saveData(db, 0,0);
     }
 
     @Override
@@ -47,7 +51,7 @@ public class ScoreDB extends SQLiteOpenHelper{
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }
-/*
+
     public void saveData(SQLiteDatabase db, int score, int line){
         ContentValues values = new ContentValues();
         values.put("score", score);
@@ -55,5 +59,5 @@ public class ScoreDB extends SQLiteOpenHelper{
 
         db.insert("scoreDB", null, values);
     }
-*/
+
 }

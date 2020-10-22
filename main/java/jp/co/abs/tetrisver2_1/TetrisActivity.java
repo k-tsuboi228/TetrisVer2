@@ -22,6 +22,8 @@ import android.view.SurfaceView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import static java.lang.Boolean.getBoolean;
+
 public class TetrisActivity extends AppCompatActivity {
 
     private class FieldView extends SurfaceView {
@@ -173,7 +175,7 @@ public class TetrisActivity extends AppCompatActivity {
         }
 
         //次に落下するブロックを指定位置に表示
-        void mergeMatrix1(int[][] block, int offsetx, int offsety){
+      /*  void mergeMatrix1(int[][] block, int offsetx, int offsety){
             for (int y = 0; y < next.length; y++) {
                 for (int x = 0; x < next[0].length; x++) {
                     if (block[y][x] != 0) {
@@ -183,7 +185,7 @@ public class TetrisActivity extends AppCompatActivity {
             }
 
         }
-
+*/
 
         // 列がそろったら消す
         void clearRows() {
@@ -270,12 +272,10 @@ public class TetrisActivity extends AppCompatActivity {
 
             String row = String.valueOf(line);
             String level = String.valueOf(speed);
-            String getScore = String.valueOf(score);
             paint.setTextSize(50);
 
             canvas.drawText("Line:" + row, 800, 1000, paint);
             canvas.drawText("Speed:" + level, 800, 1100, paint);
-            canvas.drawText("Score:" + getScore, 800, 1200, paint);
 
             for (int y = 0; y < block.length; y++) {
                 for (int x = 0; x < block[0].length; x++) {
@@ -424,6 +424,9 @@ public class TetrisActivity extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg) {
                 if (count == 0) {
+
+                    getSupportActionBar().setTitle("Score: " + score);
+
                     switch (msg.what) {
                         case INVALIDATE:
                             invalidate();
@@ -436,10 +439,11 @@ public class TetrisActivity extends AppCompatActivity {
                                 clearRows();
                                 posx = 4;
                                 posy = 0;
-                              //  block = blocks[mRand.nextInt(blocks.length)];
-                                block = block1;
+                                block = blocks[mRand.nextInt(blocks.length)];
+                              /*  block = block1;
                                 block1 = blocks[mRand.nextInt(blocks.length)];
                                 mergeMatrix1(block1, 0, 0);
+                               */
                             }
 
                             invalidate();
@@ -484,24 +488,19 @@ public class TetrisActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setFieldView();
-        SharedPreferences Count = PreferenceManager.getDefaultSharedPreferences(this);
-        isChecked = Count.getBoolean("Switch", true);
 
+      //  SharedPreferences Count = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences Count = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
+        Boolean Switch = Count.getBoolean("Switch",true);
 
-        if(isChecked == true) {
+        if(Switch == true) {
             bgm.start();
-        }else {
+        }else if(Switch == false){
             bgm = null;
         }
         mFieldView.initGame();
         mFieldView.startAnime();
         Looper.myQueue().addIdleHandler(new Idler());
-
-        String Title = "Score: ";
-        String getScore = String.valueOf(mFieldView.score);
-
-        getSupportActionBar().setTitle(Title + getScore);
-        getDelegate().setTitle(Title + getScore);
 
         mFieldView.count = 0;
 

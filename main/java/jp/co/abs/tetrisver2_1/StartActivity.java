@@ -2,6 +2,7 @@ package jp.co.abs.tetrisver2_1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -72,17 +73,19 @@ public class StartActivity extends AppCompatActivity implements CompoundButton.O
 
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
 
-        SharedPreferences Count = PreferenceManager.getDefaultSharedPreferences(this);
+      //  SharedPreferences Count = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences Count = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
         SharedPreferences.Editor Editor = Count.edit();
 
-        if(isChecked == true) {
+        Editor.putBoolean("Switch", isChecked);
+       /* if(isChecked == true) {
             Editor.putBoolean("Switch", true);
-            Editor.commit();
         }else{
             Editor.putBoolean("Switch", false);
-            Editor.commit();
         }
-
+        */
+        Editor.apply();
+        Editor.commit();
 
     }
 }
