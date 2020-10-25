@@ -78,12 +78,7 @@ public class StartActivity extends AppCompatActivity implements CompoundButton.O
         SharedPreferences.Editor Editor = Count.edit();
 
         Editor.putBoolean("Switch", isChecked);
-       /* if(isChecked == true) {
-            Editor.putBoolean("Switch", true);
-        }else{
-            Editor.putBoolean("Switch", false);
-        }
-        */
+
         Editor.apply();
         Editor.commit();
 
