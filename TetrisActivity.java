@@ -66,7 +66,12 @@ public class TetrisActivity extends AppCompatActivity {
 
         int[][] block = blocks[mRand.nextInt(blocks.length)];
         int[][] block1 = blocks[mRand.nextInt(blocks.length)];
+        int[][] block2 = blocks[mRand.nextInt(blocks.length)];
+        int[][] block3 = blocks[mRand.nextInt(blocks.length)];
+        int[][][] BlockBox = {block1,block2,block3};
+
         int posx=4, posy;
+        int pos1x =12, pos1y =1;
         int mapWidth  = 10;
         int mapHeight = 23;
         int nextWidth = 17;
@@ -182,16 +187,16 @@ public class TetrisActivity extends AppCompatActivity {
         }
 
         // ブロックを指定場所に表示
-        void mergeMatrix1(int[][] block, int offsetx, int offsety) {
+      /*  void mergeMatrix1(int[][] block, int offsetx, int offsety) {
             for (int y = 0; y < block.length; y ++) {
                 for (int x = 0; x < block[0].length; x ++) {
                     if (block[y][x] != 0) {
-                        map[offsety + posy][offsetx + posx] = block[y][x];
+
                     }
                 }
             }
         }
-
+*/
         // 列がそろったら消す
         void clearRows() {
 
@@ -276,7 +281,7 @@ public class TetrisActivity extends AppCompatActivity {
             canvas.drawText("Line:" + row, 800, 1000, paint);
             canvas.drawText("Speed:" + level, 800, 1100, paint);
 
-            for (int y = 0; y < block.length; y++) {
+         /*   for (int y = 0; y < block.length; y++) {
                 for (int x = 0; x < block[0].length; x++) {
                     switch (block[y][x]) {
                         case 1:
@@ -308,28 +313,37 @@ public class TetrisActivity extends AppCompatActivity {
                 for (int x = 0; x < block1[0].length; x++) {
                     switch (block1[y][x]) {
                         case 1:
-                            paintMatrix(canvas, block1, posx+8, posy+1, 0xFF008000);
+                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFF008000);
                             break;
                         case 2:
-                            paintMatrix(canvas, block1, posx+8, posy+1, 0xFF008080);
+                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFF008080);
                             break;
                         case 3:
-                            paintMatrix(canvas, block1, posx+8, posy+1, 0xFFFFFF00);
+                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFFFFFF00);
                             break;
                         case 4:
-                            paintMatrix(canvas, block1, posx+8, posy+1, 0xFF800080);
+                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFF800080);
                             break;
                         case 5:
-                            paintMatrix(canvas, block1, posx+8, posy+1, 0xFF00FF00);
+                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFF00FF00);
                             break;
                         case 6:
-                            paintMatrix(canvas, block1, posx+8, posy+1, 0xFFFF0000);
+                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFFFF0000);
                             break;
                         case 7:
-                            paintMatrix(canvas, block1, posx+8, posy+1, 0xFF0000FF);
+                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFF0000FF);
                             break;
                     }
                 }
+            }
+           */
+
+            Block2(canvas,block,posx,posy);
+
+            int k = 0;
+            for(int i=0; i<3; i++) {
+                Block2(canvas, BlockBox[i], pos1x, pos1y + k);
+                k = k+5;
             }
 
             if(count == 0){
@@ -339,6 +353,37 @@ public class TetrisActivity extends AppCompatActivity {
                 paintMatrix(canvas, map, 0, 0, 0xFF808080);
             }
         }
+
+        private void Block2 (Canvas canvas , int[][] block, int posx, int posy){
+            for (int y = 0; y < block.length; y++) {
+                for (int x = 0; x < block[0].length; x++) {
+                    switch (block[y][x]) {
+                        case 1:
+                            paintMatrix(canvas, block, posx, posy, 0xFF008000);
+                            break;
+                        case 2:
+                            paintMatrix(canvas, block, posx, posy, 0xFF008080);
+                            break;
+                        case 3:
+                            paintMatrix(canvas, block, posx, posy, 0xFFFFFF00);
+                            break;
+                        case 4:
+                            paintMatrix(canvas, block, posx, posy, 0xFF800080);
+                            break;
+                        case 5:
+                            paintMatrix(canvas, block, posx, posy, 0xFF00FF00);
+                            break;
+                        case 6:
+                            paintMatrix(canvas, block, posx, posy, 0xFFFF0000);
+                            break;
+                        case 7:
+                            paintMatrix(canvas, block, posx, posy, 0xFF0000FF);
+                            break;
+                    }
+                }
+            }
+        }
+
         // ブロックの回転処理
         int[][] rotate(final int[][] block) {
             int[][] rotated = new int[block[0].length][];
@@ -379,10 +424,6 @@ public class TetrisActivity extends AppCompatActivity {
                     nowTouchX = event.getX();
                     nowTouchY = event.getY();
                     FlickCheck();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    break;
-                case MotionEvent.ACTION_CANCEL:
                     break;
             }
             mHandler.sendEmptyMessage(INVALIDATE);
@@ -453,6 +494,7 @@ public class TetrisActivity extends AppCompatActivity {
                 if (count == 0) {
 
                     getSupportActionBar().setTitle("Score: " + score);
+                 //   Log.d("block",String.valueOf(block1));
 
                     switch (msg.what) {
                         case INVALIDATE:
@@ -466,10 +508,12 @@ public class TetrisActivity extends AppCompatActivity {
                                 clearRows();
                                 posx = 4;
                                 posy = 0;
-                              //  block = blocks[mRand.nextInt(blocks.length)];
+
                                 block = block1;
                                 block1 = blocks[mRand.nextInt(blocks.length)];
-                                mergeMatrix1(block1, 0, 0);
+
+                                pos1x=12;
+                                pos1y=1;
                             }
 
                             invalidate();
@@ -517,8 +561,8 @@ public class TetrisActivity extends AppCompatActivity {
 
         if(Switch == true) {
             bgm.start();
-        }else if(Switch == false){
-            bgm = null;
+        }else{
+            bgm.stop();
         }
         mFieldView.initGame();
         mFieldView.startAnime();
