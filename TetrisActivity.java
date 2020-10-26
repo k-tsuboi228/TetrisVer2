@@ -38,6 +38,7 @@ public class TetrisActivity extends AppCompatActivity {
                         {2,0}
                 },
                 {
+                        {0,0},
                         {3,3},
                         {3,3}
 
@@ -102,7 +103,6 @@ public class TetrisActivity extends AppCompatActivity {
         void GameOver() {
             for (int i = 0; i < 10; i++) {
                 if (map[0][i] != 0) {
-                    Log.d("i=", "" + i);
                     count = 1;
 
                     Intent intent = new Intent(TetrisActivity.this, EndActivity.class);
@@ -247,38 +247,8 @@ public class TetrisActivity extends AppCompatActivity {
 
             ShapeDrawable rect = new ShapeDrawable(new RectShape());
             rect.setBounds(0, 0, 700, 1731);
-            rect.getPaint().setColor(0xFFFFFAFA);
+            rect.getPaint().setColor(0xFFDCDCDC);
             rect.draw(canvas);
-
-            ShapeDrawable Background1 = new ShapeDrawable(new RectShape());
-            Background1.setBounds(795, 55, 1025, 355);
-            Background1.getPaint().setColor(0xFF000000);
-            Background1.draw(canvas);
-
-            ShapeDrawable nextBlockView = new ShapeDrawable(new RectShape());
-            nextBlockView.setBounds(800, 60, 1020, 350);
-            nextBlockView.getPaint().setColor(0xFFFFFAFA);
-            nextBlockView.draw(canvas);
-
-            ShapeDrawable Background2 = new ShapeDrawable(new RectShape());
-            Background2.setBounds(795, 405, 1025, 705);
-            Background2.getPaint().setColor(0xFF000000);
-            Background2.draw(canvas);
-
-            ShapeDrawable nextBlockView1 = new ShapeDrawable(new RectShape());
-            nextBlockView1.setBounds(800,410 , 1020, 700);
-            nextBlockView1.getPaint().setColor(0xFFFFFAFA);
-            nextBlockView1.draw(canvas);
-
-            ShapeDrawable Background3 = new ShapeDrawable(new RectShape());
-            Background3.setBounds(795, 755, 1025, 1055);
-            Background3.getPaint().setColor(0xFF000000);
-            Background3.draw(canvas);
-
-            ShapeDrawable nextBlockView2 = new ShapeDrawable(new RectShape());
-            nextBlockView2.setBounds(800, 760, 1020, 1050);
-            nextBlockView2.getPaint().setColor(0xFFFFFAFA);
-            nextBlockView2.draw(canvas);
 
             Paint paint = new Paint();
             String row = String.valueOf(line);
@@ -297,7 +267,7 @@ public class TetrisActivity extends AppCompatActivity {
                         int py = y * 70;
                         switch(map[y][x]){
                             case 0:
-                                putBlock.getPaint().setColor(0xFFFFFAFA);
+                                putBlock.getPaint().setColor(0xFFDCDCDC);
                                 break;
                             case 1:
                                 putBlock.getPaint().setColor(0xFF008000);
@@ -333,7 +303,6 @@ public class TetrisActivity extends AppCompatActivity {
                     Block2(canvas, BlockBox[i], pos1x, pos1y + k);
                     k = k+5;
                 }
-                //paintMatrix(canvas, map, 0, 0, 0xFF222222);
             }
             if(count == 1) {
                 paintMatrix(canvas, map, 0, 0, 0xFF696969);
@@ -567,7 +536,7 @@ public class TetrisActivity extends AppCompatActivity {
         super.onPause();
         bgm.stop();
         mFieldView.stopAnime();
-        mFieldView.count = 0;
+      //  mFieldView.count = 0;
     }
 
     @Override
