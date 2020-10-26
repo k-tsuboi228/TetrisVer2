@@ -40,6 +40,7 @@ public class TetrisActivity extends AppCompatActivity {
                 {
                         {3,3},
                         {3,3}
+
                 },
                 {
                         {4,0},
@@ -70,14 +71,11 @@ public class TetrisActivity extends AppCompatActivity {
         int[][] block3 = blocks[mRand.nextInt(blocks.length)];
         int[][][] BlockBox = {block1,block2,block3};
 
-        int posx=4, posy;
+        int posx=4, posy=0;
         int pos1x =12, pos1y =1;
         int mapWidth  = 10;
         int mapHeight = 23;
-        int nextWidth = 17;
-        int nextHeight = 21;
         int[][] map = new int[mapHeight][];
-        int[][] next = new int[nextHeight][];
         int count = 0;
         int score;
         int line;
@@ -97,13 +95,6 @@ public class TetrisActivity extends AppCompatActivity {
                 map[y] = new int[mapWidth];
                 for (int x = 0; x < mapWidth; x++) {
                     map[y][x] = 0;
-                }
-            }
-
-            for (int b = 17; b < nextHeight; b++) {
-                next[b] = new int[nextWidth];
-                for (int a = 14; a < nextWidth; a++) {
-                    next[b][a] = 0;
                 }
             }
         }
@@ -138,6 +129,7 @@ public class TetrisActivity extends AppCompatActivity {
                         rect.setBounds(px, py, px + 69, py + 69);
                         rect.draw(canvas);
                     }
+
                 }
             }
         }
@@ -155,7 +147,6 @@ public class TetrisActivity extends AppCompatActivity {
                 GameOver();
             }
 
-
             for (int y = 0; y < block.length; y ++) {
                 for (int x = 0; x < block[y].length; x ++) {
                     if (block[y][x] != 0 && map[y + offsety][x + offsetx] != 0) {
@@ -171,7 +162,6 @@ public class TetrisActivity extends AppCompatActivity {
                     }
                 }
             }
-
             return true;
         }
 
@@ -186,17 +176,6 @@ public class TetrisActivity extends AppCompatActivity {
             }
         }
 
-        // ブロックを指定場所に表示
-      /*  void mergeMatrix1(int[][] block, int offsetx, int offsety) {
-            for (int y = 0; y < block.length; y ++) {
-                for (int x = 0; x < block[0].length; x ++) {
-                    if (block[y][x] != 0) {
-
-                    }
-                }
-            }
-        }
-*/
         // 列がそろったら消す
         void clearRows() {
 
@@ -241,7 +220,6 @@ public class TetrisActivity extends AppCompatActivity {
                             score += 80;
                             break;
                     }
-
                 }
                 invalidate();
                 deleteline = 0;
@@ -262,95 +240,103 @@ public class TetrisActivity extends AppCompatActivity {
         @Override
         protected void onDraw(Canvas canvas) {
 
+            ShapeDrawable Background = new ShapeDrawable(new RectShape());
+            Background.setBounds(0, 0, 705, 1733);
+            Background.getPaint().setColor(0xFF000000);
+            Background.draw(canvas);
+
             ShapeDrawable rect = new ShapeDrawable(new RectShape());
             rect.setBounds(0, 0, 700, 1731);
-            rect.getPaint().setColor(0xFF696969);
+            rect.getPaint().setColor(0xFFFFFAFA);
             rect.draw(canvas);
 
-            //次落下ブロックの表示場所
+            ShapeDrawable Background1 = new ShapeDrawable(new RectShape());
+            Background1.setBounds(795, 55, 1025, 355);
+            Background1.getPaint().setColor(0xFF000000);
+            Background1.draw(canvas);
+
             ShapeDrawable nextBlockView = new ShapeDrawable(new RectShape());
-            nextBlockView.setBounds(750, 50, 1030, 850);
-            nextBlockView.getPaint().setColor(0xFF696969);
+            nextBlockView.setBounds(800, 60, 1020, 350);
+            nextBlockView.getPaint().setColor(0xFFFFFAFA);
             nextBlockView.draw(canvas);
+
+            ShapeDrawable Background2 = new ShapeDrawable(new RectShape());
+            Background2.setBounds(795, 405, 1025, 705);
+            Background2.getPaint().setColor(0xFF000000);
+            Background2.draw(canvas);
+
+            ShapeDrawable nextBlockView1 = new ShapeDrawable(new RectShape());
+            nextBlockView1.setBounds(800,410 , 1020, 700);
+            nextBlockView1.getPaint().setColor(0xFFFFFAFA);
+            nextBlockView1.draw(canvas);
+
+            ShapeDrawable Background3 = new ShapeDrawable(new RectShape());
+            Background3.setBounds(795, 755, 1025, 1055);
+            Background3.getPaint().setColor(0xFF000000);
+            Background3.draw(canvas);
+
+            ShapeDrawable nextBlockView2 = new ShapeDrawable(new RectShape());
+            nextBlockView2.setBounds(800, 760, 1020, 1050);
+            nextBlockView2.getPaint().setColor(0xFFFFFAFA);
+            nextBlockView2.draw(canvas);
 
             Paint paint = new Paint();
             String row = String.valueOf(line);
             String level = String.valueOf(speed);
             paint.setTextSize(50);
 
-            canvas.drawText("Line:" + row, 800, 1000, paint);
-            canvas.drawText("Speed:" + level, 800, 1100, paint);
+            canvas.drawText("Line:" + row, 800, 1250, paint);
+            canvas.drawText("Speed:" + level, 800, 1350, paint);
 
-         /*   for (int y = 0; y < block.length; y++) {
-                for (int x = 0; x < block[0].length; x++) {
-                    switch (block[y][x]) {
-                        case 1:
-                            paintMatrix(canvas, block, posx, posy, 0xFF008000);
-                            break;
-                        case 2:
-                            paintMatrix(canvas, block, posx, posy, 0xFF008080);
-                            break;
-                        case 3:
-                            paintMatrix(canvas, block, posx, posy, 0xFFFFFF00);
-                            break;
-                        case 4:
-                            paintMatrix(canvas, block, posx, posy, 0xFF800080);
-                            break;
-                        case 5:
-                            paintMatrix(canvas, block, posx, posy, 0xFF00FF00);
-                            break;
-                        case 6:
-                            paintMatrix(canvas, block, posx, posy, 0xFFFF0000);
-                            break;
-                        case 7:
-                            paintMatrix(canvas, block, posx, posy, 0xFF0000FF);
-                            break;
-                    }
-                }
-            }
-
-            for (int y = 0; y < block1.length; y++) {
-                for (int x = 0; x < block1[0].length; x++) {
-                    switch (block1[y][x]) {
-                        case 1:
-                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFF008000);
-                            break;
-                        case 2:
-                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFF008080);
-                            break;
-                        case 3:
-                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFFFFFF00);
-                            break;
-                        case 4:
-                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFF800080);
-                            break;
-                        case 5:
-                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFF00FF00);
-                            break;
-                        case 6:
-                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFFFF0000);
-                            break;
-                        case 7:
-                            paintMatrix(canvas, block1, pos1x, pos1y, 0xFF0000FF);
-                            break;
-                    }
-                }
-            }
-           */
-
-            Block2(canvas,block,posx,posy);
-
-            int k = 0;
-            for(int i=0; i<3; i++) {
-                Block2(canvas, BlockBox[i], pos1x, pos1y + k);
-                k = k+5;
-            }
+            ShapeDrawable putBlock = new ShapeDrawable(new RectShape());
 
             if(count == 0){
-                paintMatrix(canvas, map, 0, 0, 0xFF222222);
+                for (int y = 0; y < map.length; y++) {
+                    for (int x = 0; x < map[0].length; x++) {
+                        int px = x * 70;
+                        int py = y * 70;
+                        switch(map[y][x]){
+                            case 0:
+                                putBlock.getPaint().setColor(0xFFFFFAFA);
+                                break;
+                            case 1:
+                                putBlock.getPaint().setColor(0xFF008000);
+                                break;
+                            case 2:
+                                putBlock.getPaint().setColor(0xFF008080);
+                                break;
+                            case 3:
+                                putBlock.getPaint().setColor(0xFFFFFF00);
+                                break;
+                            case 4:
+                                putBlock.getPaint().setColor(0xFF800080);
+                                break;
+                            case 5:
+                                putBlock.getPaint().setColor(0xFF00FF00);
+                                break;
+                            case 6:
+                                putBlock.getPaint().setColor(0xFFFF0000);
+                                break;
+                            case 7:
+                                putBlock.getPaint().setColor(0xFF0000FF);
+                                break;
+                        }
+                        putBlock.setBounds(px, py, px + 69, py + 69);
+                        putBlock.draw(canvas);
+                    }
+                }
+
+                Block2(canvas,block,posx,posy);
+
+                int k = 0;
+                for(int i=0; i<3; i++) {
+                    Block2(canvas, BlockBox[i], pos1x, pos1y + k);
+                    k = k+5;
+                }
+                //paintMatrix(canvas, map, 0, 0, 0xFF222222);
             }
             if(count == 1) {
-                paintMatrix(canvas, map, 0, 0, 0xFF808080);
+                paintMatrix(canvas, map, 0, 0, 0xFF696969);
             }
         }
 
@@ -494,7 +480,7 @@ public class TetrisActivity extends AppCompatActivity {
                 if (count == 0) {
 
                     getSupportActionBar().setTitle("Score: " + score);
-                 //   Log.d("block",String.valueOf(block1));
+                    Log.d("Block", String.valueOf(block1));
 
                     switch (msg.what) {
                         case INVALIDATE:
@@ -509,11 +495,16 @@ public class TetrisActivity extends AppCompatActivity {
                                 posx = 4;
                                 posy = 0;
 
-                                block = block1;
-                                block1 = blocks[mRand.nextInt(blocks.length)];
-
-                                pos1x=12;
-                                pos1y=1;
+                                block = BlockBox[0];
+                                BlockBox[0] =BlockBox[1];
+                                BlockBox[1] =BlockBox[2];
+                                BlockBox[2] =blocks[mRand.nextInt(blocks.length)];;
+                               /* block = block1;
+                                block1 = block2;
+                                block2 = block3;
+                                block3 = blocks[mRand.nextInt(blocks.length)];
+                                BlockBox = new int[][][]{block1, block2, block3};
+                                */
                             }
 
                             invalidate();
@@ -557,7 +548,7 @@ public class TetrisActivity extends AppCompatActivity {
         setFieldView();
 
         SharedPreferences Count = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
-        Boolean Switch = Count.getBoolean("Switch",true);
+        Boolean Switch = Count.getBoolean("Switch",false);
 
         if(Switch == true) {
             bgm.start();
